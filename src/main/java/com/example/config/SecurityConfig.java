@@ -52,7 +52,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-import com.example.config.UuidTokenGenerator;
+import com.example.util.UuidTokenGenerator;
 import com.example.proxy.StatelessUserAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.context.NullSecurityContextRepository;
@@ -131,8 +131,11 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
       //  c -> c.anyRequest().permitAll()
       c -> c.requestMatchers("/proxy/**").permitAll()
+      .requestMatchers("/sample/**").permitAll()
+      .requestMatchers("**/oauth2-flow/**").permitAll()
       .anyRequest().authenticated()
-    );
+    )
+    .csrf(csrf -> csrf.disable());
     return http.build();
   }
 
@@ -157,6 +160,12 @@ public class SecurityConfig {
     authProvider.setUserDetailsService(userDetailsService);
     authProvider.setPasswordEncoder(passwordEncoder);
     return authProvider;
+  }
+
+  @Bean
+  public org.springframework.security.authentication.AuthenticationManager authenticationManager(
+      AuthenticationProvider authenticationProvider) {
+    return new org.springframework.security.authentication.ProviderManager(authenticationProvider);
   }
 
   @Bean
