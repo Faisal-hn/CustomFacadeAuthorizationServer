@@ -1,0 +1,11 @@
+com/example/config/UuidTokenGenerator.class
+com/example/proxy/StatelessUserAuthenticationFilter.class
+com/example/proxy/AuthTokenController.class
+com/example/proxy/AuthTokenFacade.class
+com/example/config/SecurityConfig.class
+com/example/AppUserRepository.class
+com/example/Main.class
+com/example/AppUser.class
+com/example/JpaUserDetailsService.class
+com/example/proxy/OAuthServiceProxy$1.class
+com/example/proxy/OAuthServiceProxy.class
