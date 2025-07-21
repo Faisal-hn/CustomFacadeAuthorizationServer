@@ -1,17 +1,12 @@
 package com.example.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContext;
 import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContextHolder;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
@@ -22,31 +17,24 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
-import java.util.Set;
 import java.util.HashMap;
 import com.example.model.TokenResponse;
 
 @Service
 public class TokenGenerationFacadeService {
     private final RegisteredClientRepository registeredClientRepository;
-    private final UserDetailsService userDetailsService;
     private final OAuth2AuthorizationService authorizationService;
-    private final AuthenticationManager authenticationManager;
     private final AuthorizationServerSettings authorizationServerSettings;
     private final OAuth2TokenGenerator<OAuth2Token> tokenGenerator;
 
     @Autowired
     public TokenGenerationFacadeService(
             RegisteredClientRepository registeredClientRepository,
-            UserDetailsService userDetailsService,
-            AuthenticationManager authenticationManager,
             OAuth2AuthorizationService authorizationService,
             AuthorizationServerSettings authorizationServerSettings,
             OAuth2TokenGenerator<OAuth2Token> tokenGenerator
     ) {
         this.registeredClientRepository = registeredClientRepository;
-        this.userDetailsService = userDetailsService;
-        this.authenticationManager = authenticationManager;
         this.authorizationService = authorizationService;
         this.authorizationServerSettings = authorizationServerSettings;
         this.tokenGenerator = tokenGenerator;

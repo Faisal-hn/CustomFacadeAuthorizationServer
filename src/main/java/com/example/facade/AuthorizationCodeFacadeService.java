@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationToken;
@@ -13,7 +12,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContext;
 import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContextHolder;
@@ -25,7 +23,6 @@ import java.util.HashMap;
 @Service
 public class AuthorizationCodeFacadeService {
     private final RegisteredClientRepository registeredClientRepository;
-    private final UserDetailsService userDetailsService;
     private final OAuth2AuthorizationService authorizationService;
     private final OAuth2AuthorizationConsentService consentService;
     private final AuthenticationManager authenticationManager;
@@ -34,13 +31,11 @@ public class AuthorizationCodeFacadeService {
     @Autowired
     public AuthorizationCodeFacadeService(
             RegisteredClientRepository registeredClientRepository,
-            UserDetailsService userDetailsService,
             AuthenticationManager authenticationManager,
             OAuth2AuthorizationService authorizationService,
             AuthorizationServerSettings authorizationServerSettings
     ) {
         this.registeredClientRepository = registeredClientRepository;
-        this.userDetailsService = userDetailsService;
         this.authenticationManager = authenticationManager;
         this.authorizationService = authorizationService;
         this.authorizationServerSettings = authorizationServerSettings;
