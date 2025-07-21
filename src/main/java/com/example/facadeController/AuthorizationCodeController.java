@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.facadeController;
 
 import com.example.facade.AuthorizationCodeFacadeService;
 import com.example.model.AuthorizationCodeResponse;
@@ -30,20 +30,20 @@ public class AuthorizationCodeController {
             Set<String> scopes = Arrays.stream(scope.split(" "))
                     .filter(s -> !s.trim().isEmpty())
                     .collect(Collectors.toSet());
-            
+
             String authorizationCode = authorizationCodeFacadeService.generateAuthorizationCode(
                     username, password, clientId, redirectUri, scopes
             );
             
             AuthorizationCodeResponse response = new AuthorizationCodeResponse(
-                    authorizationCode, 
-                    redirectUri, 
-                    "state", 
+                    authorizationCode,
+                    redirectUri,
+                    "state",
                     scope
             );
-            
+
             return ResponseEntity.ok(response);
-            
+
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(new AuthorizationCodeResponse("error", e.getMessage()));
